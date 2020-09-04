@@ -17,7 +17,7 @@ help	help_cmd	prefix	1
 roll	roll	prefix	1
 r	roll	prefix	1
 chip	chip	prefix	1
-chips   chip    prefix  1
+chips	chip	prefix	1
 power	power	prefix	1
 powers	power	prefix	1
 ncp	ncp	prefix	1
@@ -25,7 +25,6 @@ virus	virus	prefix	1
 virusx	virusx	prefix	1
 tag	tag	prefix	1
 query	query	prefix	1
-NPC	NPC	prefix	1
 bond	bond	prefix	1
 mysterydata	mysterydata	prefix	1
 rulebook	rulebook	prefix	1
