@@ -10,7 +10,9 @@ import dice_algebra
 import rply
 from dotenv import load_dotenv
 
+
 #TODO: make README for github
+
 is_python38 = sys.version[0:3] == '3.8'
 load_dotenv()
 bot_token = os.getenv('DISCORD_TOKEN')
@@ -113,6 +115,7 @@ crimsonnoise_df["mysterydata_lowercase"] = crimsonnoise_df["MysteryData"].str.lo
 element_df = pd.read_csv(r"elementdata.tsv", sep="\t").fillna('')
 element_df["category_lowercase"] = element_df["category"].str.lower()
 current_element_categories = ", ".join(pd.unique(element_df["category"]))
+
 
 help_df = pd.read_csv(r"helpresponses.tsv", sep="\t").fillna('')
 help_df["command_lowercase"] = help_df["Command"].str.lower()
@@ -629,7 +632,6 @@ async def chip(context, *args, **kwargss):
             alias_check = chip_known_aliases[chip_known_aliases["Alias"].str.contains( "(?:^|,|;)\s*%s\s*(?:$|,|;)" %
                                                                                        re.escape(arg),
                                                                                        flags=re.IGNORECASE)]
-
             if alias_check.shape[0] > 1:
                 return await koduck.sendmessage(context["message"],
                                                 sendcontent="Too many chips found! You should probably let the devs know...")
@@ -637,6 +639,7 @@ async def chip(context, *args, **kwargss):
                 arg = alias_check.iloc[0]["Chip"]
                 await koduck.sendmessage(context["message"],
                                          sendcontent="Found as an alternative name for **%s**!" % arg)
+
         except re.error:
             pass
 
@@ -716,7 +719,6 @@ def find_skill_color(skill_key):
     else:
         color = -1  # error code
     return color
-
 
 async def power_ncp(context, arg, force_power = False, ncp_only = False):
     if ncp_only:
@@ -835,6 +837,7 @@ async def power(context, *args, **kwargs):
         if not results_msg:
             return await koduck.sendmessage(context["message"], sendcontent="No powers found with that query!")
         return await send_query_msg(context, results_title, results_msg)
+
 
     for arg in cleaned_args:
         if not arg:
@@ -1062,6 +1065,7 @@ async def virus(context, *args, **kwargs):
         embed.set_thumbnail(url=virus_image)
         embed.set_footer(text=virus_footer)
         await koduck.sendmessage(context["message"], sendembed=embed)
+
 
 
 async def virusx(context, *args, **kwargs):
