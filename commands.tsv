@@ -95,3 +95,11 @@ line	line	Safety Tools	safety	prefix	1	FALSE
 veil	veil	Safety Tools	safety	prefix	1	FALSE
 find	find_chip_ncp_power	Game Lookup	base	prefix	1	FALSE
 search	find_chip_ncp_power	Game Lookup	base	prefix	1	FALSE
+playm	play_song	Music	prefix	1	FALSE
+skipm	skip_song	Music	prefix	1	FALSE
+loop	loop_toggle	Music	prefix	1	FALSE
+repeat	loop_toggle	Music	prefix	1	FALSE
+leavem	leave_music	Music	prefix	1	FALSE
+fuckoff	leave_music	Music	prefix	1	FALSE
+heckoff	leave_music	Music	prefix	1	FALSE
+goaway	leave_music	Music	prefix	1	FALSE

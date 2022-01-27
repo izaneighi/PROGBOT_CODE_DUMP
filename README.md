@@ -5,10 +5,12 @@ To add ProgBot to your server, click [this link](https://discordapp.com/oauth2/a
 
 ### Dependencies
 - `discord.py` (1.2+)
+- `discord[voice].py` (1.2+)
 - `pandas` (1.1+)
 - `rply` (0.7+)
 - `python-dotenv` (0.10+)
 - `requests`
+- `youtube-dl`
 
 ### How to Setup a Local Instance
 - Clone or fork ProgBot, downloading the files.
