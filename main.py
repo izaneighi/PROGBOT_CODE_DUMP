@@ -12,7 +12,7 @@ import mainnb
 
 import json
 import datetime
-import progbotmusic
+import mainmusic
 
 load_dotenv()
 bot_token = os.getenv('DISCORD_TOKEN')

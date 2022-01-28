@@ -5,9 +5,8 @@ import koduck
 import settings
 from queue import Queue
 import youtube_dl
-import os
-from dotenv import load_dotenv
 import pandas as pd
+import numpy as np
 import datetime
 
 #TODO:
@@ -15,7 +14,7 @@ import datetime
 # - volume, playlist command to specifically add a playlist?
 # - implement MAX_BOT_CLIENTS, MAX_SONG_QUEUE
 # So much error checking. Not a URL, not a YT URL, strip hidden links...
-# - help messages
+# - help cmd
 # - hide the joke aliases
 # - queue clear, queue undo (or remove tail) command
 
@@ -31,6 +30,20 @@ FORMATTED_EMBED_LIMIT = 4096
 MAX_EMBED_LIMIT = 6000
 
 vc_queues = {}
+
+white_list = pd.read_csv(settings.musicwhitelistfile, index_col="Server ID", sep="\t").fillna('')
+
+async def _verify_whitelist(context):
+    if context["message"].channel.type is discord.ChannelType.private:
+        await koduck.sendmessage(context["message"], sendembed=_display_message("Can't use music player in DMs!"))
+        return False
+    if context["message"].guild.id in white_list.index:
+        return True
+    await koduck.sendmessage(context["message"],
+                             sendembed=_display_message(context["message"].guild.name +
+                                                          " not on our approved music player list!\n"+
+                                                          "Reach out to the ProgBot team if you want to use the music player!"))
+    return False
 
 async def _join_vc(context):
     channelGet = context["message"].author.voice.channel
@@ -154,6 +167,8 @@ def _display_message(descript, color=MUSIC_COLOR):
 
 
 async def play_song(context, *args, **kwargs):
+    if not await _verify_whitelist(context):
+        return
     if context["message"].author.voice is None:
         return await koduck.sendmessage(context["message"], sendembed=_display_message("Can't use music player when you're not in a voice chat!"))
     if context["message"].author.voice.channel.guild != context["message"].guild:
@@ -205,6 +220,8 @@ async def play_song(context, *args, **kwargs):
 
 
 async def now_playing(context, *args, **kwargs):
+    if not await _verify_whitelist(context):
+        return
     voice = await _get_vc(context)
     if voice is None:
         return
@@ -216,6 +233,8 @@ async def now_playing(context, *args, **kwargs):
 
 
 async def pause_song(context, *args, **kwargs):
+    if not await _verify_whitelist(context):
+        return
     voice = await _get_vc(context)
     if voice is None:
         return
@@ -225,6 +244,8 @@ async def pause_song(context, *args, **kwargs):
 
 
 async def resume_song(context, *args, **kwargs):
+    if not await _verify_whitelist(context):
+        return
     voice = await _get_vc(context)
     if voice is None:
         return
@@ -234,6 +255,8 @@ async def resume_song(context, *args, **kwargs):
 
 
 async def skip_song(context, *args, **kwargs):
+    if not await _verify_whitelist(context):
+        return
     voice = await _get_vc(context)
     if voice is None:
         return
@@ -255,6 +278,8 @@ async def skip_song(context, *args, **kwargs):
 
 
 async def playskip(context, *args, **kwargs):
+    if not await _verify_whitelist(context):
+        return
     voice = await _get_vc(context)
     if not context["params"]:
         return await koduck.sendmessage(context["message"], sendembed=_display_message("Need song URL!"))
@@ -270,6 +295,8 @@ async def playskip(context, *args, **kwargs):
 
 
 async def queue_show(context, *args, **kwargs):
+    if not await _verify_whitelist(context):
+        return
     voice = await _get_vc(context)
     if voice is None:
         return
@@ -277,6 +304,8 @@ async def queue_show(context, *args, **kwargs):
 
 
 async def loop_toggle(context, *args, **kwargs):
+    if not await _verify_whitelist(context):
+        return
     channel = context["message"].author.voice.channel
     if not context["params"]:
         voice = await _get_vc(context)
@@ -293,12 +322,14 @@ async def loop_toggle(context, *args, **kwargs):
 
 
 async def leave_music(context, *args, **kwargs):
+    if not await _verify_whitelist(context):
+        return
     voice = await _get_vc(context)
     if voice is None:
         return
     await voice.disconnect()
     del vc_queues[voice.channel.id]
-    return
+    return await koduck.sendmessage(context["message"], sendembed=_display_message(":musical_note: Good night!"))
 
 
 async def clean_music():
