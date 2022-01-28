@@ -17,6 +17,7 @@ import datetime
 # So much error checking. Not a URL, not a YT URL, strip hidden links...
 # - help messages
 # - hide the joke aliases
+# - queue clear, queue undo (or remove tail) command
 
 TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 YDL_OPTIONS = {'format': 'bestaudio', 'noplaylist': 'True', 'quiet': True} #, 'ignoreerrors': True
