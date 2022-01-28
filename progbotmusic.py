@@ -15,6 +15,8 @@ import datetime
 # - volume, playlist command to specifically add a playlist?
 # - implement MAX_BOT_CLIENTS, MAX_SONG_QUEUE
 # So much error checking. Not a URL, not a YT URL, strip hidden links...
+# - help messages
+# - hide the joke aliases
 
 TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 YDL_OPTIONS = {'format': 'bestaudio', 'noplaylist': 'True', 'quiet': True} #, 'ignoreerrors': True

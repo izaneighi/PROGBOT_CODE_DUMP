@@ -109,8 +109,9 @@ mrepeat	loop_toggle	Music	prefix	1	FALSE
 mq	queue_show	Music	prefix	1	FALSE
 mqueue	queue_show	Music	prefix	1	FALSE
 mleave	leave_music	Music	prefix	1	FALSE
-mdc	leave_music	Music	prefix	1	FALSE
+mstop	leave_music	Music	prefix	1	FALSE
+mdc	leave_music	Music	prefix	1	TRUE
+mgoaway	leave_music	Music	prefix	1	TRUE
 mfuckoff	leave_music	Music	prefix	1	TRUE
 pleasefuckoff	leave_music	Music	prefix	1	TRUE
 mheckoff	leave_music	Music	prefix	1	TRUE
-mgoaway	leave_music	Music	prefix	1	TRUE
