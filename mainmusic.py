@@ -35,14 +35,13 @@ white_list = pd.read_csv(settings.musicwhitelistfile, index_col="Server ID", sep
 
 async def _verify_whitelist(context):
     if context["message"].channel.type is discord.ChannelType.private:
-        await koduck.sendmessage(context["message"], sendembed=_display_message("Can't use music player in DMs!"))
+        await koduck.sendmessage(context["message"], sendembed=_display_message(":x: Can't use music player in DMs!"))
         return False
     if context["message"].guild.id in white_list.index:
         return True
     await koduck.sendmessage(context["message"],
-                             sendembed=_display_message(context["message"].guild.name +
-                                                          " not on our approved music player list!\n"+
-                                                          "Reach out to the ProgBot team if you want to use the music player!"))
+                             sendembed=_display_message(":octagonal_sign: {} not on our approved music player list!\n".format(context["message"].guild.name) +
+                                                        "Reach out to the ProgBot team if you want to use the music player!"))
     return False
 
 async def _join_vc(context):
@@ -170,9 +169,9 @@ async def play_song(context, *args, **kwargs):
     if not await _verify_whitelist(context):
         return
     if context["message"].author.voice is None:
-        return await koduck.sendmessage(context["message"], sendembed=_display_message("Can't use music player when you're not in a voice chat!"))
+        return await koduck.sendmessage(context["message"], sendembed=_display_message(":x: Can't use music player when you're not in a voice chat!"))
     if context["message"].author.voice.channel.guild != context["message"].guild:
-        return await koduck.sendmessage(context["message"], sendembed=_display_message("Can't summon to different server!"))
+        return await koduck.sendmessage(context["message"], sendembed=_display_message(":x: Can't summon to different server!"))
 
     good_args = []
     if context["params"]:
