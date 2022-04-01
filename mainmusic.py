@@ -15,16 +15,18 @@ import datetime
 # - implement MAX_BOT_CLIENTS, MAX_SONG_QUEUE
 # So much error checking. Not a URL, not a YT URL, strip hidden links...
 # - help cmd
-# - hide the joke aliases
 # - queue clear, queue undo (or remove tail) command
+# - if moving channels while playing song, replay song?
+# - local machine might need FFMPEG to play audio
+# - multiple "no more songs in queue"
 
 TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
-YDL_OPTIONS = {'format': 'bestaudio', 'noplaylist': 'True', 'quiet': True} #, 'ignoreerrors': True
+YDL_OPTIONS = {'format': 'worstaudio', 'noplaylist': 'True', 'quiet': True} #, 'ignoreerrors': True
 FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
 MAX_SONG_QUEUE = 20
 MAX_QUEUE_DISPLAY = 5
 MAX_BOT_CLIENTS = 5
-MUSIC_TIMEOUT = datetime.timedelta(days=0, hours=0, minutes=1, seconds=0)
+MUSIC_TIMEOUT = datetime.timedelta(days=0, hours=0, minutes=5, seconds=0)
 MUSIC_COLOR = 0x5058a8
 FORMATTED_EMBED_LIMIT = 4096
 MAX_EMBED_LIMIT = 6000
@@ -48,7 +50,6 @@ async def _join_vc(context):
     channelGet = context["message"].author.voice.channel
     voiceGet = discord.utils.get(koduck.client.voice_clients, guild=context["message"].guild)
     if voiceGet and voiceGet.is_connected():
-        # TODO: if moving channels while playing song, replay song?
         vc_queues[channelGet.id] = vc_queues.pop(voiceGet.channel.id)
         await voiceGet.move_to(channelGet)
     else:
@@ -78,6 +79,7 @@ async def _validate_song(context, req_link):
     try:
         with youtube_dl.YoutubeDL(YDL_OPTIONS) as ydl:
             info = ydl.extract_info(req_link, download=False)
+            print("Video Size: %d bytes (%d MB)" % (info["filesize"], info["filesize"]/1E6))
             if info is None:
                 return None
             return (req_link, info)
@@ -89,7 +91,8 @@ async def _validate_song(context, req_link):
 async def _play_link(ctx, voiceClient, urlInfo):
     vc_queues[voiceClient.channel.id]["last_modified"] = datetime.datetime.now().strftime(TIME_FORMAT)
     try:
-        voiceClient.play(discord.FFmpegPCMAudio(urlInfo["url"], **FFMPEG_OPTIONS),
+        # source = FFmpegPCMAudio('test.mp3')
+        voiceClient.play(discord.FFmpegOpusAudio(urlInfo["url"], **FFMPEG_OPTIONS),
                          after=lambda i: asyncio.run_coroutine_threadsafe(_after_play(ctx), koduck.client.loop))
         vc_queues[voiceClient.channel.id]["now_playing"] = urlInfo
         extraInf = {"loop": vc_queues[voiceClient.channel.id]["loop"]}
@@ -339,7 +342,7 @@ async def clean_music():
             del_keys.append(chID)
             continue
         voiceClient = discord.utils.get(koduck.client.voice_clients, channel=voiceCh)
-        if len(voiceCh.voice_states)>1: # dc if no one else in vc
+        if len(voiceCh.voice_states) > 1: # dc if no one else in vc
             if not chDict["queue"].empty():
                 continue
             if (datetime.datetime.now() - datetime.datetime.strptime(chDict["last_modified"], TIME_FORMAT)) < MUSIC_TIMEOUT:

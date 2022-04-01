@@ -10,8 +10,6 @@ import mainroll
 import mainsafety
 import mainnb
 
-import json
-import datetime
 import mainmusic
 
 load_dotenv()
@@ -26,20 +24,11 @@ async def backgroundtask():
     return
 
 async def clean():
-    clean_audience() # cleans up audience_data if it hasn't been used in AUDIENCE_TIMEOUT
-    clean_spotlight() # cleans up spotlight_db if it hasn't been used in SPOTLIGHT_TIMEOUT
-    await progbotmusic.clean_music() # cleans up music clients
+    mainadvance.clean_audience() # cleans up audience_data if it hasn't been used in AUDIENCE_TIMEOUT
+    mainadvance.clean_spotlight() # cleans up spotlight_db if it hasn't been used in SPOTLIGHT_TIMEOUT
+    await mainmusic.clean_music() # cleans up music clients
     return
 
-def clean_audience():
-    #with open(settings.audiencefile, "r") as afp:
-    #    audience_data = json.load(afp)
-    del_keys = [key for key in audience_data if
-                (datetime.datetime.now() - datetime.datetime.strptime(audience_data[key]["last_modified"], '%Y-%m-%d %H:%M:%S')) > AUDIENCE_TIMEOUT]
-    for key in del_keys: del audience_data[key]
-    #with open(settings.audiencefile, 'w') as afp:
-    #    json.dump(audience_data, afp, sort_keys=True, indent=4, default=str)
-    return
 
 async def clean():
     mainadvance.clean_audience() # cleans up audience_data if it hasn't been used in AUDIENCE_TIMEOUT
@@ -81,7 +70,7 @@ async def updatecommands(context, *args, **kwargs):
         elif "base" in row["Module"]:
             koduck.addcommand(row['Command'], getattr(mainnb, row['Function']), row['Type'], int(row['Permission']))
         if "Music" in row["Category"]:
-            koduck.addcommand(row['Command'], getattr(progbotmusic, row['Function']), row['Type'], int(row['Permission']))
+            koduck.addcommand(row['Command'], getattr(mainmusic, row['Function']), row['Type'], int(row['Permission']))
 
         else:
             koduck.addcommand(row['Command'],globals()[row['Function']], row['Type'], int(row['Permission']))

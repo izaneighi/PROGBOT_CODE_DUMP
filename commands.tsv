@@ -95,23 +95,23 @@ line	line	Safety Tools	safety	prefix	1	FALSE
 veil	veil	Safety Tools	safety	prefix	1	FALSE
 find	find_chip_ncp_power	Game Lookup	base	prefix	1	FALSE
 search	find_chip_ncp_power	Game Lookup	base	prefix	1	FALSE
-mplay	play_song	Music	prefix	1	FALSE
-mskip	skip_song	Music	prefix	1	FALSE
-mplayskip	playskip	Music	prefix	1	FALSE
-mpause	pause_song	Music	prefix	1	FALSE
-mresume	resume_song	Music	prefix	1	FALSE
-mnp	now_playing	Music	prefix	1	FALSE
-mplaying	now_playing	Music	prefix	1	FALSE
-mnowplaying	now_playing	Music	prefix	1	FALSE
-msonginfo	now_playing	Music	prefix	1	FALSE
-mloop	loop_toggle	Music	prefix	1	FALSE
-mrepeat	loop_toggle	Music	prefix	1	FALSE
-mq	queue_show	Music	prefix	1	FALSE
-mqueue	queue_show	Music	prefix	1	FALSE
-mleave	leave_music	Music	prefix	1	FALSE
-mstop	leave_music	Music	prefix	1	FALSE
-mdc	leave_music	Music	prefix	1	TRUE
-mgoaway	leave_music	Music	prefix	1	TRUE
-mfuckoff	leave_music	Music	prefix	1	TRUE
-pleasefuckoff	leave_music	Music	prefix	1	TRUE
-mheckoff	leave_music	Music	prefix	1	TRUE
+mplay	play_song	Music	music	prefix	1	FALSE
+mskip	skip_song	Music	music	prefix	1	FALSE
+mplayskip	playskip	Music	music	prefix	1	FALSE
+mpause	pause_song	Music	music	prefix	1	FALSE
+mresume	resume_song	Music	music	prefix	1	FALSE
+mnp	now_playing	Music	music	prefix	1	FALSE
+mplaying	now_playing	Music	music	prefix	1	FALSE
+mnowplaying	now_playing	Music	music	prefix	1	FALSE
+msonginfo	now_playing	Music	music	prefix	1	FALSE
+mloop	loop_toggle	Music	music	prefix	1	FALSE
+mrepeat	loop_toggle	Music	music	prefix	1	FALSE
+mq	queue_show	Music	music	prefix	1	FALSE
+mqueue	queue_show	Music	music	prefix	1	FALSE
+mleave	leave_music	Music	music	prefix	1	FALSE
+mstop	leave_music	Music	music	prefix	1	FALSE
+mdc	leave_music	Music	music	prefix	1	TRUE
+mgoaway	leave_music	Music	music	prefix	1	TRUE
+mfuckoff	leave_music	Music	music	prefix	1	TRUE
+pleasefuckoff	leave_music	Music	music	prefix	1	TRUE
+mheckoff	leave_music	Music	music	prefix	1	TRUE
